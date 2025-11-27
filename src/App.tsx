@@ -1,13 +1,12 @@
-
+import MainLayout from './layouts/MainLayout'
 
 function App() {
 
-    return (
-    <div className="min-h-screen bg-blue-500 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-white">
-        Waggle is working!
-      </h1>
-    </div>
+  return (
+    <MainLayout>
+      <h1 className="text-3xl font-bold">Dashboard</h1>
+      <p className="text-gray-500 mt-2">This is where the dashboard content will go.</p>
+    </MainLayout>
   )
 }
 
