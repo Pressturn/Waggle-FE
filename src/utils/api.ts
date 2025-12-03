@@ -1,25 +1,19 @@
-const API_BASE_URL = 'http://localhost:5001/api'
+import axios from 'axios'
 
-const api = {
-    baseUrl: API_BASE_URL,
-    
-    getToken: () => localStorage.getItem('token'),
-
-    getHeaders: (includeAuth = true) => {
-        const headers: Record<string, string> = {
-            'Content-type': 'application/json'
-        }
-
-        if (includeAuth) {
-            const token = localStorage.getItem('token')
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`
-            }
-        }
+const api = axios.create({
+    baseURL: 'http://localhost:5001/api',
+    headers: {
+        'Content-Type': 'application/json'
     }
+})
 
-}
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token')
 
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+})
 
-
-export default api
+export default api 
