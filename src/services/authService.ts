@@ -23,22 +23,28 @@ export interface AuthResponse {
 
 const authService = {
     signUp: async (data: SignUpData): Promise<AuthResponse> => {
-        const response = await fetch(`${api.baseUrl}/auth/signup`, {
-            method: 'POST',
-            headers: api.getHeaders(false),
-            body: JSON.stringify(data)
-        })
+        const response = await api.post('/auth/signup', data)
+        return response.data
+    },
 
-        const result = await response.json
+    signIn: async (data: SignInData): Promise<AuthResponse> => {
+        const response = await api.post('/auth/signin', data)
+        return response.data
+    },
 
-        if (!response.ok) {
-            throw new Error(result.message || 'Signup failed')
-        }
+    signOut: () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('account')
+    },
 
-        return result
+    getStoredAccount: () => {
+        const account = localStorage.getItem('account')
+        return account ? JSON.parse(account) : null
+    },
+
+    isAuthenticated: () => {
+        return !!localStorage.getItem('token')
     }
 }
-
-
 
 export default authService
