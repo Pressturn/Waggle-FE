@@ -119,10 +119,6 @@ function Login() {
                     </Link>
                 </p>
             </div>
-
-            <p className="mt-6 text-gray-500 text-sm">
-                © 2025 PICO. All rights reserved.
-            </p>
         </div>
     )
 }
