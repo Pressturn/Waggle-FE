@@ -32,7 +32,7 @@ function Signup() {
             localStorage.setItem('account', JSON.stringify(data.account))
             navigate('/')
         } catch (err) {
-            setError((err as any)?.message || 'Signup failed')
+            setError(err instanceof Error ? err.message : 'Signup failed')
         } finally {
             setLoading(false)
         }
@@ -43,9 +43,9 @@ function Signup() {
             <div className="bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-lg w-full max-w-md">
 
                 <div className="flex justify-center mb-6">
-                    <img 
-                        src="assets/logo.svg" 
-                        alt="Waggle" 
+                    <img
+                        src="assets/logo.svg"
+                        alt="Waggle"
                         className="h-16"
                     />
                 </div>
