@@ -26,10 +26,6 @@ function Dashboard() {
     const lastWater = activities.find(activity => activity.type === 'WATER')
     const lastMedication = activities.find(activity => activity.type === 'MEDICATION')
 
-    const today = new Date().toDateString()
-    const todayActivities = activities.filter(activity =>
-        new Date(activity.date).toDateString() === today
-    )
 
     return (
         <div>
@@ -43,15 +39,6 @@ function Dashboard() {
             <p>Last Walk: {lastWalk?.time || 'No Walks Logged'} - {lastWalk?.notes || ''}</p>
             <p>Last Water: {lastWater?.time || 'No Water Logged'} - {lastWater?.notes || ''}</p>
             <p>Last Medication: {lastMedication?.time || 'No Medication Logged'} - {lastMedication?.notes || ''}</p>
-
-
-
-            <h2>Today's Activity Log: ({todayActivities.length})</h2>
-            {todayActivities.map(activity => (
-                <div key={activity.id}>
-                    <p>{activity.type}-{activity.time}-{activity.notes}</p>
-                </div>
-            ))}
         </div>
     )
 }
