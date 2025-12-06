@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import activityService, { Activity } from '../services/activityService'
 
 function Dashboard() {
