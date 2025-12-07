@@ -33,17 +33,38 @@ function ActivityLog() {
 
       {activities.map(activity => (
         <div key={activity.id}>
-          <p> Type: {activity.type}</p>
-          <p>Date: {activity.date}</p>
-          <p>Time: {activity.time}</p>
-          <p>Food Type:{activity.foodType}</p>
-          <p> Portion: {activity.portion}</p>
-          <p>Activity Kind: {activity.kind}</p>
-          <p>Notes: {activity.notes}</p>
-          <hr/>
-        </div>
-      ))}
-    </div>
+          {activity.time && <p> Type: {activity.type}</p>}
+          {activity.date && <p>Date: {activity.date}</p>}
+          {activity.time && <p>Time: {activity.time}</p>}
+
+          {activity.type === 'MEAL' && (
+            <>
+              {activity.foodType && <p>Food Type:{activity.foodType}</p>}
+              {activity.portion && <p> Portion: {activity.portion}</p>}
+            </>
+          )}
+
+          {(activity.type === 'WALK' || activity.type === 'PLAY') && (
+            <>
+              {activity.activityKind && <p>Activity Kind: {activity.activityKind}</p>}
+            </>
+          )}
+
+          {activity.type === 'MEDICATION' && (
+            <>
+              {activity.medication && <p>Activity Medication: {activity.medication}</p>}
+            </>
+          )}
+
+          {activity.time && <p>Notes: {activity.notes}</p>}
+          {activity.dog && <p>Dog:{activity.dog.name}</p>}
+          {activity.loggedBy && <p>Logged by: {activity.loggedBy.name}</p>}
+
+          <hr />
+        </div >
+      ))
+      }
+    </div >
   )
 }
 
