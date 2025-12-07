@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import activityService from "../services/activityService"
+import { format, parseISO } from 'date-fns'
 
 function ActivityLog() {
   const [activities, setActivities] = useState<Activity[]>([])
@@ -21,6 +22,15 @@ function ActivityLog() {
     }
   }
 
+  const formatDate = (dateString: string) => {
+    try {
+      const date = parseISO(dateString)
+      return format(date, 'dd MMM, yyyy')
+    } catch {
+      return dateString
+    }
+  }
+
   return (
     <div>
 
@@ -34,7 +44,7 @@ function ActivityLog() {
       {activities.map(activity => (
         <div key={activity.id}>
           {activity.time && <p> Type: {activity.type}</p>}
-          {activity.date && <p>Date: {activity.date}</p>}
+          {activity.date && <p>Date: {formatDate(activity.date)}</p>}
           {activity.time && <p>Time: {activity.time}</p>}
 
           {activity.type === 'MEAL' && (
@@ -57,7 +67,7 @@ function ActivityLog() {
           )}
 
           {activity.time && <p>Notes: {activity.notes}</p>}
-          {activity.dog && <p>Dog:{activity.dog.name}</p>}
+          {activity.dog && <p>Dog: {activity.dog.name}</p>}
           {activity.loggedBy && <p>Logged by: {activity.loggedBy.name}</p>}
 
           <hr />
