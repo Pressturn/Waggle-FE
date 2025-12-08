@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import dogService, { Dog } from "../services/dogService"
+import { useNavigate } from 'react-router-dom'
 
 function Pets() {
     const [dogs, setDogs] = useState<Dog[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchDogs()
@@ -22,7 +24,7 @@ function Pets() {
         }
     }
 
-  return (
+    return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="flex justify-between items-start mb-2">
                 <div>
@@ -42,8 +44,8 @@ function Pets() {
                     <div key={dog.id} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
                         <div className="w-full h-64 bg-gray-200 rounded-2xl mb-4 overflow-hidden flex items-center justify-center">
                             {dog.imageUrl ? (
-                                <img 
-                                    src={dog.imageUrl} 
+                                <img
+                                    src={dog.imageUrl}
                                     alt={dog.name}
                                     className="w-full h-full object-cover"
                                 />
@@ -64,7 +66,11 @@ function Pets() {
                             <p>{dog.age} years old • {dog.weight} kg</p>
                         </div>
 
-                        <button className="w-full bg-blue-100 text-blue-600 py-3 rounded-xl hover:bg-blue-200 transition font-medium flex items-center justify-center gap-2">
+
+                        <button
+                            onClick={() => navigate(`/pets/${dog.id}`)}
+                            className="w-full bg-blue-100 text-blue-600 py-3 rounded-xl hover:bg-blue-200 transition font-medium flex items-center justify-center gap-2"
+                        >
                             <span>⚙️</span>
                             Manage Pet
                         </button>
