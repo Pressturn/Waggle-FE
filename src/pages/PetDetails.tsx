@@ -10,6 +10,14 @@ function PetDetails() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [showEditPetForm, setShowEditPetForm] = useState(false)
+    const [petFormData, setPetFormData] = useState({
+        name: '',
+        breed: '',
+        age: 0,
+        weight: 0,
+        allergies: '',
+        dietaryRestrictions: '',
+    })
 
     useEffect(() => {
         if (dogId) {
@@ -21,10 +29,20 @@ function PetDetails() {
         if (!dogId) {
             setError('Dog Id Missing')
             setLoading(false)
+            return
         }
         try {
             const data = await dogService.getOne(dogId)
             setDog(data.dog)
+
+            setPetFormData({
+                name: data.dog.name || '',
+                breed: data.dog.breed || '',
+                age: data.dog.age || 0,
+                weight: data.dog.weight || 0,
+                allergies: data.dog.allergies || '',
+                dietaryRestrictions: data.dog.dietaryRestrictions || '',
+            })
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to fetch dog')
         } finally {
@@ -41,11 +59,42 @@ function PetDetails() {
         return (
             <div>
                 <h1> Edit Mode</h1>
-                <p> Name: {dog.name}</p>
-                <input type="text" value={dog.name} />
-                <input type="text" value={dog.breed} />
-                <input type="number" value={dog.age} />
-                <input type="number" value={dog.weight} />
+                <p> Name: </p>
+                <input
+                    type="text"
+                    value={petFormData.name}
+                    onChange={(event) => setPetFormData({
+                        ...petFormData, name: event.target.value
+                    })}
+                />
+
+                <p>Breed:</p>
+                <input
+                    type="text"
+                    value={petFormData.breed}
+                    onChange={(event) => setPetFormData({
+                        ...petFormData, breed: event.target.value
+                    })}
+                />
+
+                <p> Age:</p>
+                <input
+                    type="number"
+                    value={petFormData.age}
+                    onChange={(event) => setPetFormData({
+                        ...petFormData, age: parseInt(event.target.value)
+                    })}
+                />
+
+                <p>Weight:</p>
+                <input
+                    type="number"
+                    value={petFormData.weight}
+                    onChange={(event) => setPetFormData({
+                        ...petFormData, weight: parseFloat(event.target.value)
+
+                    })}
+                />
 
                 <button onClick={() => setShowEditPetForm(false)}>Cancel</button>
                 <button> Save Changes</button>
