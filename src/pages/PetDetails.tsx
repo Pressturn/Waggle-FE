@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import dogService, { Dog } from '../services/dogService'
+import EditPet from '../components/Pet/EditPet'
 
 function PetDetails() {
     const { dogId } = useParams()
@@ -9,6 +10,7 @@ function PetDetails() {
     const [dog, setDog] = useState<dog | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [showEditPetForm, setShowEditPetForm] = useState(false)
 
     useEffect(() => {
         if (dogId) {
@@ -58,7 +60,9 @@ function PetDetails() {
                     <div className="flex-1">
                         <div className="flex justify-between items-start mb-4">
                             <h1 className="text-4xl font-semibold text-gray-800">{dog.name}</h1>
-                            <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
+                            <button
+                                onClick={() => setShowEditPetForm(true)}
+                                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
                                 Edit Pet
                             </button>
                         </div>
@@ -83,6 +87,11 @@ function PetDetails() {
                     </div>
                 </div>
             </div>
+
+            <EditPet
+                isOpen={showEditPetForm}
+                onClose={() => setShowEditPetForm(false)}
+            />
         </div>
     )
 }
