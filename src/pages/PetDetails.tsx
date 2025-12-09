@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import dogService, { Dog } from '../services/dogService'
-import EditPet from '../components/Pet/EditPet'
 
 function PetDetails() {
     const { dogId } = useParams()
@@ -37,6 +36,22 @@ function PetDetails() {
     if (error) return <p> Error: {error}</p>
     if (!dog) return <p>Dog not found</p>
 
+
+    if (showEditPetForm) {
+        return (
+            <div>
+                <h1> Edit Mode</h1>
+                <p> Name: {dog.name}</p>
+                <input type="text" value={dog.name} />
+                <input type="text" value={dog.breed} />
+                <input type="number" value={dog.age} />
+                <input type="number" value={dog.weight} />
+
+                <button onClick={() => setShowEditPetForm(false)}>Cancel</button>
+                <button> Save Changes</button>
+            </div>
+        )
+    }
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <button onClick={() => navigate('/pets')}
@@ -87,11 +102,6 @@ function PetDetails() {
                     </div>
                 </div>
             </div>
-
-            <EditPet
-                isOpen={showEditPetForm}
-                onClose={() => setShowEditPetForm(false)}
-            />
         </div>
     )
 }
