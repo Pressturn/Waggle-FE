@@ -6,10 +6,12 @@ import dogService, { Dog } from '../services/dogService'
 function PetDetails() {
     const { dogId } = useParams()
     const navigate = useNavigate()
-    const [dog, setDog] = useState<dog | null>(null)
+    const [dog, setDog] = useState<Dog | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [showEditPetForm, setShowEditPetForm] = useState(false)
+    const [saving, setSaving] = useState(false)
+
     const [petFormData, setPetFormData] = useState({
         name: '',
         breed: '',
@@ -47,6 +49,21 @@ function PetDetails() {
             setError(error instanceof Error ? error.message : 'Failed to fetch dog')
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleSave = async () => {
+        if (!dogId)
+            return setSaving(true)
+        try {
+            await dogService.update(dogId, petFormData)
+            await fetchDog()
+
+            setShowEditPetForm(false)
+        } catch (error) {
+            setError(error instanceof Error ? error.message : 'Failed to update dog details')
+        } finally {
+            setSaving(false)
         }
     }
 
@@ -97,10 +114,16 @@ function PetDetails() {
                 />
 
                 <button onClick={() => setShowEditPetForm(false)}>Cancel</button>
-                <button> Save Changes</button>
+                <button
+                    onClick={handleSave}
+                    disabled={saving}
+                >
+                    {saving ? 'Saving...' : 'Save Changes'}
+                </button>
             </div>
         )
     }
+    
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <button onClick={() => navigate('/pets')}

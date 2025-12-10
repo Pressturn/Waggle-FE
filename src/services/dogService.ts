@@ -42,7 +42,7 @@ const dogService = {
     },
 
     update: async (id: string, data: Partial<CreateDogData>): Promise<{ message: string; dog: Dog }> => {
-        const response = await api.put(`/dog/${id}`, data)
+        const response = await api.put(`/dogs/${id}`, data)
         return response.data
     },
 
