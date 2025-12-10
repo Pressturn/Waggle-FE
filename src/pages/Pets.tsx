@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import dogService, { Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
+import AddPet from '../components/Pet/AddPet'
 
 function Pets() {
     const [dogs, setDogs] = useState<Dog[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const navigate = useNavigate()
+    const [showAddPetModal, setShowAddPetModal] = useState(false)
+
 
     useEffect(() => {
         fetchDogs()
@@ -31,7 +34,9 @@ function Pets() {
                     <h1 className="text-4xl font-semibold text-gray-700">My Pets</h1>
                     <p className="text-gray-400 mt-2">Manage your pets and their care team.</p>
                 </div>
-                <button className="bg-blue-300 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-400 transition">
+                <button
+                    onClick={() => setShowAddPetModal(true)}
+                    className="bg-blue-300 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-400 transition">
                     + Add Pet
                 </button>
             </div>
@@ -77,6 +82,11 @@ function Pets() {
                     </div>
                 ))}
             </div>
+            <AddPet
+                isOpen={showAddPetModal}
+                onClose={() => setShowAddPetModal(false)}
+                onPetAdded={fetchDogs}
+            />
         </div>
     )
 }
