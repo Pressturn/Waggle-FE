@@ -1,5 +1,5 @@
 import useAddPet from '../../hooks/useAddPet'
-import { Dialog } from '@headlessui/react'
+import { Dialog, DialogTitle, DialogPanel } from '@headlessui/react'
 
 interface AddPetProps {
     isOpen: boolean
@@ -22,13 +22,13 @@ function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <Dialog.Panel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
+                <DialogPanel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
 
                     {/* Header */}
                     <div className="flex justify-between items-start mb-8">
-                        <Dialog.Title className="text-2xl font-semibold text-gray-800">
+                        <DialogTitle className="text-2xl font-semibold text-gray-800">
                             Add New Pet
-                        </Dialog.Title>
+                        </DialogTitle>
                         <button
                             onClick={onClose}
                             className="text-gray-400 hover:text-gray-600 text-3xl leading-none"
@@ -120,7 +120,7 @@ function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
                             {loading ? 'Adding...' : 'Add Pet'}
                         </button>
                     </div>
-                </Dialog.Panel>
+                </DialogPanel>
             </div>
         </Dialog>
     )
