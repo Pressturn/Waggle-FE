@@ -1,12 +1,16 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import usePetDetails from '../hooks/usePetDetails'
+import useDeletePet from '../hooks/useDeletePet'
+import DeletePetModal from '../components/Pet/DeletePetModal'
 
-function PetDetails() {
+function ManagePet() {
 
     const navigate = useNavigate()
+    const { handleDelete, deleting } = useDeletePet()
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    const {
+    const { 
         dog,
         loading,
         error,
@@ -15,8 +19,17 @@ function PetDetails() {
         petFormData,
         handleSave,
         handleFormChange,
-        toggleEditMode,
+        toggleEditMode
     } = usePetDetails()
+
+    const confirmDelete = async () => {
+        if (!dog) return
+        const success = await handleDelete(dog.id)
+
+        if (success) {
+            navigate('/pets')
+        }
+    }
 
     if (loading) return <p>Loading</p>
     if (error) return <p> Error: {error}</p>
@@ -147,12 +160,22 @@ function PetDetails() {
                     <div className="flex-1">
                         <div className="flex justify-between items-start mb-4">
                             <h1 className="text-4xl font-semibold text-gray-800">{dog.name}</h1>
-                            <button
-                                onClick={toggleEditMode}
-                                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2"
-                            >
-                                Edit Pet
-                            </button>
+
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={toggleEditMode}
+                                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2"
+                                >
+                                    Edit Pet
+                                </button>
+
+                                <button
+                                    onClick={() => setShowDeleteModal(true)}
+                                    className="px-4 py-2 bg-red-500 text-white border border-red-500 rounded-lg hover:bg-red-600 transition flex items-center gap-2"
+                                >
+                                    Delete Pet
+                                </button>
+                            </div>
                         </div>
 
                         <div className="flex gap-6 text-gray-600 mb-6">
@@ -175,8 +198,16 @@ function PetDetails() {
                     </div>
                 </div>
             </div>
+
+            <DeletePetModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={confirmDelete}
+                dogName={dog?.name || 'this pet'}
+                deleting={deleting}
+            />
         </div>
     )
 }
 
-export default PetDetails
+export default ManagePet
