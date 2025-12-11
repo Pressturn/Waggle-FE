@@ -1,14 +1,14 @@
 import useAddPet from '../../hooks/useAddPet'
 import { Dialog, DialogTitle, DialogPanel } from '@headlessui/react'
 
-interface AddPetProps {
+interface AddPetModalProps {
     isOpen: boolean
     onClose: () => void
     onPetAdded: () => void
 
 }
 
-function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
+function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
     const {
         petFormData,
         loading,
@@ -24,7 +24,6 @@ function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 <DialogPanel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
 
-                    {/* Header */}
                     <div className="flex justify-between items-start mb-8">
                         <DialogTitle className="text-2xl font-semibold text-gray-800">
                             Add New Pet
@@ -126,4 +125,4 @@ function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
     )
 }
 
-export default AddPet
+export default AddPetModal

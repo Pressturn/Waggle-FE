@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import dogService, { Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
-import AddPet from '../components/Pet/AddPet'
+import AddPet from '../components/Pet/AddpetModal'
 
 function Pets() {
     const [dogs, setDogs] = useState<Dog[]>([])
