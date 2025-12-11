@@ -90,8 +90,6 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                                     onChange={(event) => setPetFormData({
                                         ...petFormData, weight: parseFloat(event.target.value) || 0
                                     })}
-                                    placeholder="4.5"
-                                    step="0.1"
                                     className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                                 />
                             </div>
@@ -109,8 +107,8 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                             onClick={async () => {
                                 const success = await handleSubmit()
                                 if (success) {
-                                    onPetAdded()
                                     onClose()
+                                    onPetAdded()
                                 }
                             }}
                             disabled={loading}

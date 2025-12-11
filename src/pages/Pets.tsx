@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import dogService, { Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
-import AddPet from '../components/Pet/AddpetModal'
+import AddPetModal from '../components/Pet/AddpetModal'
 
 function Pets() {
     const [dogs, setDogs] = useState<Dog[]>([])
@@ -82,10 +82,13 @@ function Pets() {
                     </div>
                 ))}
             </div>
-            <AddPet
+            <AddPetModal
                 isOpen={showAddPetModal}
                 onClose={() => setShowAddPetModal(false)}
-                onPetAdded={fetchDogs}
+                onPetAdded={async () => {
+                    await fetchDogs()           
+                    setShowAddPetModal(false)   
+                }}
             />
         </div>
     )

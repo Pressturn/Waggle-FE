@@ -16,7 +16,7 @@ function useAddPet() {
     const handleSubmit = async () => {
         if (!petFormData.name) {
             setError('Name is required')
-            return
+            return false
         }
 
         setLoading(true)
@@ -31,8 +31,11 @@ function useAddPet() {
                 age: 0,
                 weight: 0,
             })
+
+            return true
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to add pet')
+            return false
         } finally {
             setLoading(false)
         }
