@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Pets from './pages/Pets'
 import Signup from './pages/Signup'
-import PetDetails from './pages/PetDetails'
+import PetDetails from './pages/ManagePet'
 
 
 function App() {
