@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import dogService from '../../services/dogService'
+
+import useAddPet from '../../hooks/useAddPet'
 
 interface AddPetProps {
     isOpen: boolean
@@ -9,44 +9,13 @@ interface AddPetProps {
 }
 
 function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
-
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-
-    const handleSubmit = async () => {
-        if (!petFormData.name) {
-            setError('Name is required')
-            return
-        }
-
-        setLoading(true)
-        setError('')
-
-        try {
-            await dogService.create(petFormData)
-
-            onPetAdded()
-            onClose()
-
-            setPetFormData({
-                name: '',
-                breed: '',
-                age: 0,
-                weight: 0,
-            })
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Failed to add pet')
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const [petFormData, setPetFormData] = useState({
-        name: '',
-        breed: '',
-        age: 0,
-        weight: 0,
-    })
+    const {
+        petFormData,
+        loading,
+        error,
+        setPetFormData,
+        handleSubmit,
+    } = useAddPet()
 
     if (!isOpen) return null
 
@@ -87,11 +56,18 @@ function AddPet({ isOpen, onClose, onPetAdded }: AddPetProps) {
                 />
 
                 <button onClick={onClose}>Cancel</button>
-                <button onClick={handleSubmit} disabled={loading}>
+                <button onClick={async () => {
+                    const success = await handleSubmit()
+                    if (success) {
+                        onPetAdded()
+                        onClose()
+                    }
+                }}
+                    disabled={loading}>
                     {loading ? 'Adding...' : 'Add Pet'}
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
 
