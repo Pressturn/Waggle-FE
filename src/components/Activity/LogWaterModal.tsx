@@ -63,10 +63,33 @@ function LogWaterModal({ isOpen, onClose, onWaterLogged }: LogWaterModalProps) {
                             <input
                                 type="date"
                                 value={date}
-                                onChange={(e) => setDate(e.target.value)}
+                                onChange={(event) => setDate(event.target.value)}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                             />
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-2">
+                            Time
+                        </label>
+                        <input
+                            type="time"
+                            value={time}
+                            onChange={(event) => setTime(event.target.value)}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-2">
+                            Notes
+                        </label>
+                        <textarea
+                            value={notes}
+                            onChange={(event) => setNotes(event.target.value)}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition resize-none"
+                        />
                     </div>
 
                     <div className="flex gap-3 mt-8">
