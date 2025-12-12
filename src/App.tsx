@@ -18,15 +18,52 @@ function App() {
       <Route path="/"
         element={
           <ProtectedRoute>
-            <MainLayout><Dashboard /></MainLayout>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
 
-      <Route path="/" element={<MainLayout><Dashboard /></MainLayout>} />
-      <Route path="/pets" element={<MainLayout><Pets /></MainLayout>} />
-      <Route path="/pets/:dogId" element={<MainLayout><PetDetails /></MainLayout>} />
-      <Route path="/activity" element={<MainLayout><ActivityLog /></MainLayout>} />
+      <Route path="/"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
+          </ProtectedRoute >
+        }
+      />
+      
+      < Route path="/pets"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <Pets />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="/pets/:dogId"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <PetDetails />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="/activity"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ActivityLog />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/" />} />
 
