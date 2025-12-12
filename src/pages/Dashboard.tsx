@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import activityService, { Activity } from '../services/activityService'
 import dogService from '../services/dogService'
-import { GiDogBowl } from 'react-icons/gi'
-import { IoPawOutline } from 'react-icons/io5'
+import { GiDogBowl, GiMedicines } from 'react-icons/gi'
+import { IoPawOutline, IoWaterOutline } from 'react-icons/io5'
 
 function Dashboard() {
     const [activities, setActivities] = useState<Activity[]>([])
@@ -94,8 +94,39 @@ function Dashboard() {
                             </p>
                         </div>
 
-                        <p>Last Water: {lastWater?.time || 'No Water Logged'} - {lastWater?.notes || ''}</p>
-                        <p>Last Medication: {lastMedication?.time || 'No Medication Logged'} - {lastMedication?.notes || ''}</p>
+                        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
+                                    <IoWaterOutline className="text-blue-800 text-xl" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-800">Last Water Log</h3>
+                                    <p className="text-sm text-gray-600">
+                                        {lastWater?.time || 'No water logged'}
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-gray-700 text-sm">
+                                {lastWater?.notes || 'No details available'}
+                            </p>
+                        </div>
+
+                        <div className="bg-purple-50 border border-purple-200 rounded-2xl p-6">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
+                                    <GiMedicines className="text-purple-500 text-xl" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-800">Next Medication</h3>
+                                    <p className="text-sm text-gray-600">
+                                        {lastMedication?.time || 'No medication logged'}
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-gray-700 text-sm">
+                                {lastMedication?.notes || 'No details available'}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
