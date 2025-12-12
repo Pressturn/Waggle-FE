@@ -6,7 +6,7 @@ import Login from './pages/Login'
 import Pets from './pages/Pets'
 import Signup from './pages/Signup'
 import PetDetails from './pages/ManagePet'
-
+import ProtectedRoute from './routes/ProtectedRoute'
 
 function App() {
   return (
@@ -14,6 +14,14 @@ function App() {
 
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+
+      <Route path="/"
+        element={
+          <ProtectedRoute>
+            <MainLayout><Dashboard /></MainLayout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="/" element={<MainLayout><Dashboard /></MainLayout>} />
       <Route path="/pets" element={<MainLayout><Pets /></MainLayout>} />
