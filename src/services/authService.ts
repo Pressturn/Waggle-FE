@@ -24,11 +24,20 @@ export interface AuthResponse {
 const authService = {
     signUp: async (data: SignUpData): Promise<AuthResponse> => {
         const response = await api.post('/auth/signup', data)
+        const { token, account } = response.data
+
+        localStorage.setItem('token', token)
+        localStorage.setItem('account', JSON.stringify(account))
+
         return response.data
     },
 
     signIn: async (data: SignInData): Promise<AuthResponse> => {
         const response = await api.post('/auth/signin', data)
+        const { token, account } = response.data
+
+        localStorage.setItem('token', token)
+        localStorage.setItem('account', JSON.stringify(account))
         return response.data
     },
 
