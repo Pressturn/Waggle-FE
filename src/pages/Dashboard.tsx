@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import activityService, { Activity } from '../services/activityService'
-import dogService from '../services/dogService'
 import { GiDogBowl, GiMedicines } from 'react-icons/gi'
 import { IoPawOutline, IoWaterOutline } from 'react-icons/io5'
 
@@ -22,6 +21,17 @@ function Dashboard() {
         } finally {
             setLoading(false)
         }
+    }
+
+    const getTodaysActivities = () => {
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        return activities.filter(activity => {
+            const activityDate = new Date(activity.timestamp || activity.date)
+            activityDate.setHours(0, 0, 0, 0)
+            return activityDate.getTime() === today.getTime()
+        })
     }
 
     const lastMeal = activities.find(activity => activity.type === 'MEAL')
@@ -132,6 +142,30 @@ function Dashboard() {
 
                 <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Today's Activity Log</h2>
+
+                    <div className="space-y-3">
+                        {getTodaysActivities().length === 0 ? (
+                            <div className="bg-white rounded-2xl border border-gray-200 p-6 text-center">
+                                <p className="text-gray-500">No activities logged today</p>
+                            </div>
+                        ) : (
+                            getTodaysActivities().map((activity) => (
+                                <div key={activity.id} className="bg-white rounded-2xl border border-gray-200 p-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                                            {activity.type}
+                                        </span>
+                                        <span className="text-sm text-gray-500">
+                                            {activity.time}
+                                        </span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                        {activity.notes || 'No details'}
+                                    </p>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
 
             </div>
