@@ -3,15 +3,18 @@ import activityService, { Activity } from "../services/activityService"
 import { format, parseISO } from 'date-fns'
 import LogWaterModal from '../components/Activity/LogWaterModal'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import dogService from '../services/dogService'
 
 function ActivityLog() {
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [showLogWaterModal, setShowLogWaterModal] = useState(false)
+  const [dogs, setDogs] = useState<any[]>([])
 
   useEffect(() => {
     fetchActivities()
+    fetchDogs()
   }, [])
 
   const fetchActivities = async () => {
@@ -22,6 +25,15 @@ function ActivityLog() {
       setError(error instanceof Error ? error.message : 'Failed to fetch activities')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchDogs = async () => {
+    try {
+      const data = await dogService.getAll()
+      setDogs(data.dogs)
+    } catch (error) {
+      console.error('Failed to fetch dogs:', error)
     }
   }
 
@@ -133,8 +145,10 @@ function ActivityLog() {
         onClose={() => setShowLogWaterModal(false)}
         onWaterLogged={() => {
           console.log('Water logged!')
+          fetchActivities()
           setShowLogWaterModal(false)
         }}
+        dogId={dogs.length > 0 ? dogs[0].id : ''}
       />
 
     </div>

@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
+import activityService from '../../services/activityService'
 
 interface LogWaterModalProps {
     isOpen: boolean
     onClose: () => void
     onWaterLogged: () => void
+    dogId: string
 }
 
 const getCurrentDate = () => {
@@ -23,7 +25,7 @@ const getCurrentTime = () => {
     return `${hours}:${minutes}`
 }
 
-function LogWaterModal({ isOpen, onClose, onWaterLogged }: LogWaterModalProps) {
+function LogWaterModal({ isOpen, onClose, onWaterLogged, dogId }: LogWaterModalProps) {
     const [date, setDate] = useState(getCurrentDate())
     const [time, setTime] = useState(getCurrentTime())
     const [notes, setNotes] = useState('')
@@ -35,6 +37,15 @@ function LogWaterModal({ isOpen, onClose, onWaterLogged }: LogWaterModalProps) {
         setError('')
 
         try {
+
+            await activityService.create({
+                type: 'WATER',
+                date: date,
+                time: time,
+                notes: notes,
+                dogId: dogId
+            })
+
             console.log('Submitting:', { date, time, notes })
             onWaterLogged()
             onClose()

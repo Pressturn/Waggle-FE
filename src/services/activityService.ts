@@ -43,12 +43,12 @@ const activityService = {
     },
 
     create: async (data: CreateActivityData): Promise<{ message: string; activity: Activity }> => {
-        const response = await api.post('/activites', data)
+        const response = await api.post('/activities', data)
         return response.data
     },
 
     update: async (id: string, data: Partial<CreateActivityData>): Promise<{ message: string, activity: Activity }> => {
-        const response = await api.put(`/activity/${id}`, data)
+        const response = await api.put(`/activities/${id}`, data)
         return response.data
     },
 
