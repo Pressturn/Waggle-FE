@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import activityService, { Activity } from '../services/activityService'
 import dogService from '../services/dogService'
 import { GiDogBowl } from 'react-icons/gi'
+import { IoPawOutline } from 'react-icons/io5'
 
 function Dashboard() {
     const [activities, setActivities] = useState<Activity[]>([])
@@ -76,7 +77,23 @@ function Dashboard() {
                             </p>
                         </div>
 
-                        <p>Last Walk: {lastWalk?.time || 'No Walks Logged'} - {lastWalk?.notes || ''}</p>
+                        <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-10 h-10 bg-green-200 rounded-full flex items-center justify-center">
+                                    <IoPawOutline className="text-green-800 text-xl" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-800">Last Walk/Play</h3>
+                                    <p className="text-sm text-gray-600">
+                                        {lastWalk?.time || 'No walks logged'}
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-gray-700 text-sm">
+                                {lastWalk?.notes || 'No details available'}
+                            </p>
+                        </div>
+
                         <p>Last Water: {lastWater?.time || 'No Water Logged'} - {lastWater?.notes || ''}</p>
                         <p>Last Medication: {lastMedication?.time || 'No Medication Logged'} - {lastMedication?.notes || ''}</p>
                     </div>
