@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import activityService, { Activity } from "../services/activityService"
 import { format, parseISO } from 'date-fns'
-
+import LogWaterModal from '../components/Activity/LogWaterModal'
 function ActivityLog() {
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [showLogWaterModal, setShowLogWaterModal] = useState(false)
 
   useEffect(() => {
     fetchActivities()
@@ -43,6 +44,13 @@ function ActivityLog() {
           + Log Activity
         </button>
       </div>
+
+      <button
+        onClick={() => setShowLogWaterModal(true)}
+        className="bg-blue-400 text-white px-5 py-2.5 rounded-lg hover:bg-blue-500 transition"
+      >
+        + Log Water
+      </button>
 
 
       {loading && <p className="text-gray-600">Loading activities...</p>}
@@ -103,6 +111,15 @@ function ActivityLog() {
 
                 {activity.dog && <p className="text-gray-600 text-sm">Dog: {activity.dog.name}</p>}
                 {activity.loggedBy && <p className="text-gray-400 text-sm">Logged by: {activity.loggedBy.name}</p>}
+
+                <LogWaterModal
+                  isOpen={showLogWaterModal}
+                  onClose={() => setShowLogWaterModal(false)}
+                  onWaterLogged={() => {
+                    console.log('Water logged!')
+                    setShowLogWaterModal(false)
+                  }}
+                />
 
               </div>
             </div>
