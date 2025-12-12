@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import activityService, { Activity } from "../services/activityService"
 import { format, parseISO } from 'date-fns'
 import LogWaterModal from '../components/Activity/LogWaterModal'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+
 function ActivityLog() {
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
@@ -40,23 +42,32 @@ function ActivityLog() {
           <h1 className="text-4xl font-semibold text-gray-700"> Activity Log</h1>
           <p className="text-gray-400 mt-2">View and filter all care activities.</p>
         </div>
-        <button className="bg-blue-300 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-400 transition">
-          + Log Activity
-        </button>
-      </div>
 
-      <button
-        onClick={() => setShowLogWaterModal(true)}
-        className="bg-blue-400 text-white px-5 py-2.5 rounded-lg hover:bg-blue-500 transition"
-      >
-        + Log Water
-      </button>
+        <Menu as="div" className="relative">
+          <MenuButton className="bg-blue-400 text-white px-5 py-2.5 rounded-lg hover:bg-blue-500 transition flex items-center gap-2">
+            + Log Activity
+            <span className="text-sm">▼</span>
+          </MenuButton>
+
+          <MenuItems className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 p-2 focus:outline-none z-10">
+            <MenuItem>
+              {({ focus }) => (
+                <button
+                  onClick={() => setShowLogWaterModal(true)}
+                  className={`w-full text-left px-4 py-2 rounded-lg ${focus ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
+                >
+                  Log Water
+                </button>
+              )}
+            </MenuItem>
+          </MenuItems>
+        </Menu>
+      </div>
 
 
       {loading && <p className="text-gray-600">Loading activities...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
-
-      <p className="text-gray-500 mb-4">Total Activities: {activities.length}</p>
 
       <div className="space-y-4">
         {activities.map(activity => (
@@ -112,20 +123,20 @@ function ActivityLog() {
                 {activity.dog && <p className="text-gray-600 text-sm">Dog: {activity.dog.name}</p>}
                 {activity.loggedBy && <p className="text-gray-400 text-sm">Logged by: {activity.loggedBy.name}</p>}
 
-                <LogWaterModal
-                  isOpen={showLogWaterModal}
-                  onClose={() => setShowLogWaterModal(false)}
-                  onWaterLogged={() => {
-                    console.log('Water logged!')
-                    setShowLogWaterModal(false)
-                  }}
-                />
-
               </div>
             </div>
           </div>
         ))}
       </div>
+      <LogWaterModal
+        isOpen={showLogWaterModal}
+        onClose={() => setShowLogWaterModal(false)}
+        onWaterLogged={() => {
+          console.log('Water logged!')
+          setShowLogWaterModal(false)
+        }}
+      />
+
     </div>
   )
 }
