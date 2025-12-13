@@ -1,11 +1,13 @@
-import {type Activity } from '../../services/activityService'
+import { type Activity } from '../../services/activityService'
 import { format, parseISO } from 'date-fns'
 
 interface ActivityCardProps {
     activity: Activity
+    onEdit: () => void
+    onDelete: () => void
 }
 
-function ActivityCard({ activity }: ActivityCardProps) {
+function ActivityCard({ activity, onEdit, onDelete }: ActivityCardProps) {
     const formatDate = (dateString: string) => {
         try {
             const date = parseISO(dateString)
@@ -51,23 +53,37 @@ function ActivityCard({ activity }: ActivityCardProps) {
                     {activity.notes && <p className="text-gray-600 mt-2" >Notes: {activity.notes}</p>}
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                    
+
                     <span className={`px-4 py-1.5 rounded-full text-sm font-medium ${activity.type === 'MEAL' ? 'bg-orange-100 text-orange-600' :
                         activity.type === 'WALK' ? 'bg-green-100 text-green-600' :
-                        activity.type === 'PLAY' ? 'bg-green-100 text-green-600' :
-                        activity.type === 'WATER' ? 'bg-blue-100 text-blue-600' :
-                        'bg-purple-100 text-purple-600'
+                            activity.type === 'PLAY' ? 'bg-green-100 text-green-600' :
+                                activity.type === 'WATER' ? 'bg-blue-100 text-blue-600' :
+                                    'bg-purple-100 text-purple-600'
                         }`}>
                         {activity.type === 'MEAL' ? 'Food' :
-                         activity.type === 'WALK' ? 'Walk' :
-                         activity.type === 'PLAY' ? 'Play' :
-                         activity.type === 'WATER' ? 'Water' :
-                         'Medication'}
+                            activity.type === 'WALK' ? 'Walk' :
+                                activity.type === 'PLAY' ? 'Play' :
+                                    activity.type === 'WATER' ? 'Water' :
+                                        'Medication'}
                     </span>
 
                     {activity.dog && <p className="text-gray-600 text-sm">Dog: {activity.dog.name}</p>}
                     {activity.loggedBy && <p className="text-gray-400 text-sm">Logged by: {activity.loggedBy.name}</p>}
 
+                    <div className="flex gap-2 mt-2">
+                        <button
+                            onClick={onEdit}
+                            className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={onDelete}
+                            className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition"
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
