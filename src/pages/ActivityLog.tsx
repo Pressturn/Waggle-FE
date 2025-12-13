@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import activityService, { Activity } from "../services/activityService"
 import { format, parseISO } from 'date-fns'
 import LogFeedingModal from '../components/Activity/LogFeedingModal'
+import LogWalkPlayModal from '../components/Activity/LogWalkPlayModal'
 import LogWaterModal from '../components/Activity/LogWaterModal'
 import LogMedicationModal from '../components/Activity/LogMedicationModal'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
@@ -12,6 +13,7 @@ function ActivityLog() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [showLogFeedingModal, setShowLogFeedingModal] = useState(false)
+  const [showLogWalkPlayModal, setShowLogWalkPlayModal] = useState(false)
   const [showLogWaterModal, setShowLogWaterModal] = useState(false)
   const [showLogMedicationModal, setShowLogMedicationModal] = useState(false)
   const [dogs, setDogs] = useState<any[]>([])
@@ -78,6 +80,19 @@ function ActivityLog() {
                 </button>
               )}
             </MenuItem>
+
+            <MenuItem>
+              {({ focus }) => (
+                <button
+                  onClick={() => setShowLogWalkPlayModal(true)}
+                  className={`w-full text-left px-4 py-2 rounded-lg transition ${focus ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
+                >
+                  Log Walk/Play
+                </button>
+              )}
+            </MenuItem>
+
             <MenuItem>
               {({ focus }) => (
                 <button
@@ -179,6 +194,17 @@ function ActivityLog() {
         dogId={dogs.length > 0 ? dogs[0].id : ''}
       />
 
+      <LogWalkPlayModal
+        isOpen={showLogWalkPlayModal}
+        onClose={() => setShowLogWalkPlayModal(false)}
+        onWalkPlayLogged={() => {
+          console.log('Walk/Play logged!')
+          fetchActivities()
+          setShowLogWalkPlayModal(false)
+        }}
+        dogId={dogs.length > 0 ? dogs[0].id : ''}
+      />
+      
       <LogWaterModal
         isOpen={showLogWaterModal}
         onClose={() => setShowLogWaterModal(false)}
