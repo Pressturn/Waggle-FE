@@ -46,7 +46,6 @@ function LogWaterModal({ isOpen, onClose, onWaterLogged, dogId }: LogWaterModalP
                 dogId: dogId
             })
 
-            console.log('Submitting:', { date, time, notes })
             onWaterLogged()
             onClose()
         } catch (error) {

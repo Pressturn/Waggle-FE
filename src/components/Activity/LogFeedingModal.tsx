@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import activityService from '../../services/activityService'
 
-interface LogMedicationModalProps {
+interface LogFeedingModalProps {
     isOpen: boolean
     onClose: () => void
-    onMedicationLogged: () => void
+    onFeedingLogged: () => void
     dogId: string
 }
 
@@ -25,12 +25,15 @@ const getCurrentTime = () => {
     return `${hours}:${minutes}`
 }
 
-function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogMedicationModalProps) {
+function LogFeedingModal({ isOpen, onClose, onFeedingLogged, dogId }: LogFeedingModalProps) {
     const [date, setDate] = useState(getCurrentDate())
     const [time, setTime] = useState(getCurrentTime())
+    const [foodType, setFoodType] = useState('')
+    const [portion, setPortion] = useState('')
     const [notes, setNotes] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+
 
     const handleSubmit = async () => {
         setLoading(true)
@@ -39,17 +42,18 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogM
         try {
 
             await activityService.create({
-                type: 'MEDICATION',
+                type: 'MEAL',
                 date: date,
                 time: time,
+                foodType: foodType,
+                portion: portion,
                 notes: notes,
                 dogId: dogId
             })
-
-            onMedicationLogged()
+            onFeedingLogged()
             onClose()
         } catch (error) {
-            setError(error instanceof Error ? error.message : 'Failed to log medication')
+            setError(error instanceof Error ? error.message : 'Failed to log feeding')
         } finally {
             setLoading(false)
         }
@@ -62,7 +66,7 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogM
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 <DialogPanel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
                     <DialogTitle className="text-2xl font-semibold text-gray-800 mb-6">
-                        Log Medication
+                        Log Feeding
                     </DialogTitle>
 
                     <div className="space-y-5">
@@ -93,6 +97,30 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogM
 
                     <div>
                         <label className="block text-sm font-medium text-gray-600 mb-2">
+                            Food Type
+                        </label>
+                        <input
+                            type="text"
+                            value={foodType}
+                            onChange={(event) => setFoodType(event.target.value)}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-2">
+                            Portion
+                        </label>
+                        <input
+                            type="text"
+                            value={portion}
+                            onChange={(event) => setPortion(event.target.value)}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-2">
                             Notes
                         </label>
                         <textarea
@@ -111,11 +139,12 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogM
                             Cancel
                         </button>
                         <button
+
                             onClick={handleSubmit}
                             disabled={loading}
                             className="flex-1 px-6 py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition font-medium disabled:bg-blue-300 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Logging...' : 'Log Medication'}
+                            {loading ? 'Logging...' : 'Log Feeding'}
                         </button>
                     </div>
 
@@ -125,4 +154,4 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogM
     )
 }
 
-export default LogMedicationModal
+export default LogFeedingModal
