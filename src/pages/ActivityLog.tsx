@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import activityService, { Activity } from "../services/activityService"
 import { format, parseISO } from 'date-fns'
 import LogWaterModal from '../components/Activity/LogWaterModal'
+import LogMedicationModal from '../components/Activity/LogMedicationModal'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import dogService from '../services/dogService'
 
@@ -10,6 +11,7 @@ function ActivityLog() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [showLogWaterModal, setShowLogWaterModal] = useState(false)
+  const [showLogMedicationModal, setShowLogMedicationModal] = useState(false)
   const [dogs, setDogs] = useState<any[]>([])
 
   useEffect(() => {
@@ -73,13 +75,25 @@ function ActivityLog() {
                 </button>
               )}
             </MenuItem>
-          </MenuItems>
-        </Menu>
-      </div>
+
+            <MenuItem>
+              {({ focus }) => (
+                <button
+                  onClick={() => setShowLogMedicationModal(true)}
+                  className={`w-full text-left px-4 py-2 rounded-lg transition ${focus ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
+                >
+                  Log Medication
+                </button>
+              )}
+          </MenuItem>
+        </MenuItems>
+      </Menu>
+    </div>
 
 
-      {loading && <p className="text-gray-600">Loading activities...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      { loading && <p className="text-gray-600">Loading activities...</p> }
+  { error && <p className="text-red-500">Error: {error}</p> }
 
       <div className="space-y-4">
         {activities.map(activity => (
@@ -150,8 +164,18 @@ function ActivityLog() {
         }}
         dogId={dogs.length > 0 ? dogs[0].id : ''}
       />
-
-    </div>
+      
+<LogMedicationModal
+  isOpen={showLogMedicationModal}
+  onClose={() => setShowLogMedicationModal(false)}
+  onMedicationLogged={() => {
+    console.log('Medication logged!')
+    fetchActivities()
+    setShowLogMedicationModal(false)
+  }}
+  dogId={dogs.length > 0 ? dogs[0].id : ''}
+/>
+    </div >
   )
 }
 
