@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import activityService, { Activity } from '../services/activityService'
+import activityService, {type Activity } from '../services/activityService'
 import { GiDogBowl, GiMedicines } from 'react-icons/gi'
 import { IoPawOutline, IoWaterOutline } from 'react-icons/io5'
 

@@ -2,7 +2,7 @@ import api from '../utils/api'
 
 export interface Activity {
     id: string
-    type: 'MEAL' | 'WALK' | 'WATER' | 'MEDICATION'
+    type: 'MEAL' | 'WALK' | 'PLAY' | 'WATER' | 'MEDICATION'
     date: string
     time?: string
     foodType?: string
@@ -22,7 +22,7 @@ export interface Activity {
 }
 
 export interface CreateActivityData {
-    type: 'MEAL' | 'WALK' | 'WATER' | 'MEDICATION'
+    type: 'MEAL' | 'WALK' | 'PLAY' | 'WATER' | 'MEDICATION'
     date: string
     time?: string
     foodType?: string
