@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import activityService from '../../services/activityService'
+import activityService, { type Activity } from '../../services/activityService'
 
 interface LogWalkPlayModalProps {
   isOpen: boolean
   onClose: () => void
   onWalkPlayLogged: () => void
   dogId: string
+  editActivity: Activity
 }
 
 const getCurrentDate = () => {

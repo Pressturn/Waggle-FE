@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import activityService from '../../services/activityService'
+import activityService, { type Activity } from '../../services/activityService'  
 
 interface LogFeedingModalProps {
     isOpen: boolean
     onClose: () => void
     onFeedingLogged: () => void
     dogId: string
+    editActivity: Activity
 }
 
 const getCurrentDate = () => {

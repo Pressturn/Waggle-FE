@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import activityService from '../../services/activityService'
+import activityService, { type Activity } from '../../services/activityService'
 
 interface LogWaterModalProps {
     isOpen: boolean
     onClose: () => void
     onWaterLogged: () => void
     dogId: string
+    editActivity?: Activity
 }
 
 const getCurrentDate = () => {
@@ -25,26 +26,47 @@ const getCurrentTime = () => {
     return `${hours}:${minutes}`
 }
 
-function LogWaterModal({ isOpen, onClose, onWaterLogged, dogId }: LogWaterModalProps) {
+function LogWaterModal({ isOpen, onClose, onWaterLogged, dogId, editActivity }: LogWaterModalProps) {
     const [date, setDate] = useState(getCurrentDate())
     const [time, setTime] = useState(getCurrentTime())
     const [notes, setNotes] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    useEffect(() => {
+        if (editActivity) {
+            setDate(editActivity.date.split('T')[0])
+            setTime(editActivity.time || getCurrentTime())
+            setNotes(editActivity.notes || '')
+        } else {
+            setDate(getCurrentDate())
+            setTime(getCurrentTime())
+            setNotes('')
+        }
+    }, [editActivity])
+
     const handleSubmit = async () => {
         setLoading(true)
         setError('')
 
         try {
-
-            await activityService.create({
-                type: 'WATER',
-                date: date,
-                time: time,
-                notes: notes,
-                dogId: dogId
-            })
+            if (editActivity) {
+                await activityService.update(editActivity.id, {
+                    type: 'WATER',
+                    date: date,
+                    time: time,
+                    notes: notes,
+                    dogId: dogId
+                })
+            } else {
+                await activityService.create({
+                    type: 'WATER',
+                    date: date,
+                    time: time,
+                    notes: notes,
+                    dogId: dogId
+                })
+            }
 
             onWaterLogged()
             onClose()
