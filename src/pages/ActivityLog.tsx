@@ -43,6 +43,23 @@ function ActivityLog() {
     }
   }
 
+  const handleEdit = (activity: Activity) => {
+
+
+  }
+
+  const handleDelete = async (activityId: string) => {
+    const confirmed = window.confirm('Are you sure you want to delete this?')
+    if (!confirmed) return
+    try {
+      await activityService.delete(activityId)
+      fetchActivities()
+    } catch (error) {
+      console.error('Failed to delete activity:', error)
+      setError('Failed to delete activity')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="flex justify-between items-start mb-8">
@@ -120,6 +137,8 @@ function ActivityLog() {
           <ActivityCard
             key={activity.id}
             activity={activity}
+            onEdit={() => handleEdit(activity)}
+            onDelete={() => handleDelete(activity.id)}
           />
 
         ))}
