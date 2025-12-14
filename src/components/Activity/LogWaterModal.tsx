@@ -70,6 +70,7 @@ function LogWaterModal({ isOpen, onClose, onWaterLogged, dogId, editActivity }: 
 
             onWaterLogged()
             onClose()
+            
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to log water')
         } finally {

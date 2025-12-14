@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import activityService, { type Activity } from '../../services/activityService'  
+import activityService, { type Activity } from '../../services/activityService'
 
 interface LogMedicationModalProps {
     isOpen: boolean
@@ -26,29 +26,50 @@ const getCurrentTime = () => {
     return `${hours}:${minutes}`
 }
 
-function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId }: LogMedicationModalProps) {
+function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId, editActivity }: LogMedicationModalProps) {
     const [date, setDate] = useState(getCurrentDate())
     const [time, setTime] = useState(getCurrentTime())
     const [notes, setNotes] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    useEffect(() => {
+        if (editActivity) {
+            setDate(editActivity.date.split('T')[0])
+            setTime(editActivity.time || getCurrentTime)
+            setNotes(editActivity.notes || '')
+        } else {
+            setDate(getCurrentDate())
+            setTime(getCurrentTime())
+            setNotes('')
+        }
+    }, [editActivity])
+
     const handleSubmit = async () => {
         setLoading(true)
         setError('')
 
         try {
-
-            await activityService.create({
-                type: 'MEDICATION',
-                date: date,
-                time: time,
-                notes: notes,
-                dogId: dogId
-            })
-
+            if (editActivity) {
+                await activityService.update(editActivity.id, {
+                    type: 'MEDICATION',
+                    date: date,
+                    time: time,
+                    notes: notes,
+                    dogId: dogId
+                })
+            } else {
+                await activityService.create({
+                    type: 'MEDICATION',
+                    date: date,
+                    time: time,
+                    notes: notes,
+                    dogId: dogId
+                })
+            }
             onMedicationLogged()
             onClose()
+
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to log medication')
         } finally {
