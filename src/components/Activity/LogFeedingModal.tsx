@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import activityService, { type Activity } from '../../services/activityService'  
+import activityService, { type Activity } from '../../services/activityService'
 
 interface LogFeedingModalProps {
     isOpen: boolean
@@ -26,7 +26,7 @@ const getCurrentTime = () => {
     return `${hours}:${minutes}`
 }
 
-function LogFeedingModal({ isOpen, onClose, onFeedingLogged, dogId }: LogFeedingModalProps) {
+function LogFeedingModal({ isOpen, onClose, onFeedingLogged, dogId, editActivity }: LogFeedingModalProps) {
     const [date, setDate] = useState(getCurrentDate())
     const [time, setTime] = useState(getCurrentTime())
     const [foodType, setFoodType] = useState('')
@@ -35,124 +35,150 @@ function LogFeedingModal({ isOpen, onClose, onFeedingLogged, dogId }: LogFeeding
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    useEffect(() => {
+        if (editActivity) {
+            setDate(editActivity.date.split('T')[0])
+            setTime(editActivity.time || getcurrentTime())
+            setFoodType(editActivity.foodType || '')
+            setPortion(editActivity.portion || '')
+            setNotes(editActivity.notes || '')
+        } else {
+            setDate(getCurrentDate())
+            setTime(getCurrentTime())
+            setFoodType('')
+            setPortion('')
+            setNotes('')
+        }
+    }, [editActivity])
 
     const handleSubmit = async () => {
         setLoading(true)
         setError('')
 
         try {
+            if (editActivity) {
+                await activityService.update(editActivity.id, {
+                    type: 'MEAL',
+                    date: date,
+                    time: time,
+                    foodType: foodType,
+                    portion: portion,
+                    notes: notes,
+                    dogId: dogId
+                })
+            } else {
 
-            await activityService.create({
-                type: 'MEAL',
-                date: date,
-                time: time,
-                foodType: foodType,
-                portion: portion,
-                notes: notes,
-                dogId: dogId
-            })
-            onFeedingLogged()
-            onClose()
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Failed to log feeding')
-        } finally {
-            setLoading(false)
+                await activityService.create({
+                    type: 'MEAL',
+                    date: date,
+                    time: time,
+                    foodType: foodType,
+                    portion: portion,
+                    notes: notes,
+                    dogId: dogId
+                })
+                onFeedingLogged()
+                onClose()
+            } catch (error) {
+                setError(error instanceof Error ? error.message : 'Failed to log feeding')
+            } finally {
+                setLoading(false)
+            }
         }
-    }
 
     return (
-        <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+                <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
-            <div className="fixed inset-0 flex items-center justify-center p-4">
-                <DialogPanel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
-                    <DialogTitle className="text-2xl font-semibold text-gray-800 mb-6">
-                        Log Feeding
-                    </DialogTitle>
+                <div className="fixed inset-0 flex items-center justify-center p-4">
+                    <DialogPanel className="bg-white rounded-3xl shadow-xl w-full max-w-lg p-8">
+                        <DialogTitle className="text-2xl font-semibold text-gray-800 mb-6">
+                            Log Feeding
+                        </DialogTitle>
 
-                    <div className="space-y-5">
+                        <div className="space-y-5">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-2">
+                                    Date
+                                </label>
+                                <input
+                                    type="date"
+                                    value={date}
+                                    onChange={(event) => setDate(event.target.value)}
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                />
+                            </div>
+                        </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-2">
-                                Date
+                                Time
                             </label>
                             <input
-                                type="date"
-                                value={date}
-                                onChange={(event) => setDate(event.target.value)}
+                                type="time"
+                                value={time}
+                                onChange={(event) => setTime(event.target.value)}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                             />
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Time
-                        </label>
-                        <input
-                            type="time"
-                            value={time}
-                            onChange={(event) => setTime(event.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
-                        />
-                    </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-600 mb-2">
+                                Food Type
+                            </label>
+                            <input
+                                type="text"
+                                value={foodType}
+                                onChange={(event) => setFoodType(event.target.value)}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Food Type
-                        </label>
-                        <input
-                            type="text"
-                            value={foodType}
-                            onChange={(event) => setFoodType(event.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
-                        />
-                    </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-600 mb-2">
+                                Portion
+                            </label>
+                            <input
+                                type="text"
+                                value={portion}
+                                onChange={(event) => setPortion(event.target.value)}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Portion
-                        </label>
-                        <input
-                            type="text"
-                            value={portion}
-                            onChange={(event) => setPortion(event.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
-                        />
-                    </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-600 mb-2">
+                                Notes
+                            </label>
+                            <textarea
+                                value={notes}
+                                onChange={(event) => setNotes(event.target.value)}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition resize-none"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Notes
-                        </label>
-                        <textarea
-                            value={notes}
-                            onChange={(event) => setNotes(event.target.value)}
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition resize-none"
-                        />
-                    </div>
+                        <div className="flex gap-3 mt-8">
+                            <button
+                                onClick={onClose}
+                                disabled={loading}
+                                className="flex-1 px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium disabled:opacity-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
 
-                    <div className="flex gap-3 mt-8">
-                        <button
-                            onClick={onClose}
-                            disabled={loading}
-                            className="flex-1 px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium disabled:opacity-50"
-                        >
-                            Cancel
-                        </button>
-                        <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className="flex-1 px-6 py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition font-medium disabled:bg-blue-300 disabled:cursor-not-allowed"
+                            >
+                                {loading ? 'Logging...' : 'Log Feeding'}
+                            </button>
+                        </div>
 
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            className="flex-1 px-6 py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition font-medium disabled:bg-blue-300 disabled:cursor-not-allowed"
-                        >
-                            {loading ? 'Logging...' : 'Log Feeding'}
-                        </button>
-                    </div>
+                    </DialogPanel>
+                </div >
+            </Dialog >
+        )
+    }
 
-                </DialogPanel>
-            </div >
-        </Dialog >
-    )
-}
-
-export default LogFeedingModal
+    export default LogFeedingModal
