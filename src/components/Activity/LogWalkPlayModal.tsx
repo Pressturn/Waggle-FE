@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useStat, useEffect } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import activityService, { type Activity } from '../../services/activityService'
 
@@ -26,7 +26,7 @@ const getCurrentTime = () => {
   return `${hours}:${minutes}`
 }
 
-function LogWalkPlayModal({ isOpen, onClose, onWalkPlayLogged, dogId }: LogWalkPlayModalProps) {
+function LogWalkPlayModal({ isOpen, onClose, onWalkPlayLogged, dogId, editActivity }: LogWalkPlayModalProps) {
   const [date, setDate] = useState(getCurrentDate())
   const [time, setTime] = useState(getCurrentTime())
   const [activityType, setActivityType] = useState<'WALK' | 'PLAY'>('WALK')
@@ -34,20 +34,42 @@ function LogWalkPlayModal({ isOpen, onClose, onWalkPlayLogged, dogId }: LogWalkP
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  useEffect(() => {
+    if (editActivity) {
+      setDate(editActivity.date.split('T'[0]))
+      setTime(editActivity.time || getCurrentTime)
+      setActivityType(editActivity.type as 'WALK' | 'PLAY')
+      setNotes(editActivity.notes || '')
+    } else {
+      setDate(getCurrentDate())
+      setTime(getCurrentTime())
+      setActivityType('WALK')
+      setNotes('')
+    }
+  }, [editActivity])
 
   const handleSubmit = async () => {
     setLoading(true)
     setError('')
 
     try {
-
-      await activityService.create({
-        type: activityType,
-        date: date,
-        time: time,
-        notes: notes,
-        dogId: dogId
-      })
+      if (editActivity) {
+        await activityService.update(editActivity.id, {
+          type: activityType,
+          date: date,
+          time: time,
+          notes: notes,
+          dogId: dogId
+        })
+      } else {
+        await activityService.create({
+          type: activityType,
+          date: date,
+          time: time,
+          notes: notes,
+          dogId: dogId
+        })
+      }
 
       onWalkPlayLogged()
       onClose()
