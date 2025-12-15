@@ -7,6 +7,7 @@ import Pets from './pages/Pets'
 import Signup from './pages/Signup'
 import PetDetails from './pages/ManagePet'
 import ProtectedRoute from './routes/ProtectedRoute'
+import Caregivers from './pages/Caregivers'
 
 function App() {
   return (
@@ -34,7 +35,17 @@ function App() {
           </ProtectedRoute >
         }
       />
-      
+
+      <Route path="/activity"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ActivityLog />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
       < Route path="/pets"
         element={
           <ProtectedRoute>
@@ -55,11 +66,11 @@ function App() {
         }
       />
 
-      <Route path="/activity"
+      <Route path="/caregivers"
         element={
           <ProtectedRoute>
             <MainLayout>
-              <ActivityLog />
+              <Caregivers />
             </MainLayout>
           </ProtectedRoute>
         }

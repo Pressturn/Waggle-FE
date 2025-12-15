@@ -44,6 +44,7 @@ function Pets() {
             {loading && <p className="text-gray-600 mt-8">Loading...</p>}
             {error && <p className="text-red-500 mt-8">Error: {error}</p>}
 
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                 {dogs.map(dog => (
                     <div key={dog.id} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
