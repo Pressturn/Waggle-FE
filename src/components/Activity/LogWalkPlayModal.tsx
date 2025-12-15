@@ -1,4 +1,4 @@
-import { useStat, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import activityService, { type Activity } from '../../services/activityService'
 
@@ -7,7 +7,7 @@ interface LogWalkPlayModalProps {
   onClose: () => void
   onWalkPlayLogged: () => void
   dogId: string
-  editActivity: Activity
+  editActivity?: Activity
 }
 
 const getCurrentDate = () => {
@@ -36,8 +36,8 @@ function LogWalkPlayModal({ isOpen, onClose, onWalkPlayLogged, dogId, editActivi
 
   useEffect(() => {
     if (editActivity) {
-      setDate(editActivity.date.split('T'[0]))
-      setTime(editActivity.time || getCurrentTime)
+      setDate(editActivity.date.split('T')[0])
+      setTime(editActivity.time || getCurrentTime())
       setActivityType(editActivity.type as 'WALK' | 'PLAY')
       setNotes(editActivity.notes || '')
     } else {

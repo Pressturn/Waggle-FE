@@ -7,7 +7,7 @@ interface LogFeedingModalProps {
     onClose: () => void
     onFeedingLogged: () => void
     dogId: string
-    editActivity: Activity
+    editActivity?: Activity
 }
 
 const getCurrentDate = () => {
@@ -77,9 +77,10 @@ function LogFeedingModal({ isOpen, onClose, onFeedingLogged, dogId, editActivity
                     notes: notes,
                     dogId: dogId
                 })
-                onFeedingLogged()
-                onClose()
             }
+            onFeedingLogged()
+            onClose()
+
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to log feeding')
         } finally {

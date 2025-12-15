@@ -7,7 +7,7 @@ interface LogMedicationModalProps {
     onClose: () => void
     onMedicationLogged: () => void
     dogId: string
-    editActivity: Activity
+    editActivity?: Activity
 }
 
 const getCurrentDate = () => {
@@ -36,7 +36,7 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId, editAc
     useEffect(() => {
         if (editActivity) {
             setDate(editActivity.date.split('T')[0])
-            setTime(editActivity.time || getCurrentTime)
+            setTime(editActivity.time || getCurrentTime())
             setNotes(editActivity.notes || '')
         } else {
             setDate(getCurrentDate())
