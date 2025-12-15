@@ -36,7 +36,7 @@ function Pets() {
                 </div>
                 <button
                     onClick={() => setShowAddPetModal(true)}
-                    className="bg-blue-300 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-400 transition">
+                    className="bg-blue-400 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-400 transition">
                     + Add Pet
                 </button>
             </div>
@@ -44,51 +44,63 @@ function Pets() {
             {loading && <p className="text-gray-600 mt-8">Loading...</p>}
             {error && <p className="text-red-500 mt-8">Error: {error}</p>}
 
+            {dogs.length === 0 ? (
+                <div className="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-200 mt-8">
+                    <p className="text-gray-500 text-lg font-medium mb-2">No pets added yet</p>
+                    <button
+                        onClick={() => setShowAddPetModal(true)}
+                        className="bg-blue-400 text-white px-6 py-3 rounded-xl hover:bg-blue-500 transition font-medium inline-flex items-center gap-2"
+                    >
+                        + Add Your First Pet
+                    </button>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    {dogs.map(dog => (
+                        <div key={dog.id} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
+                            <div className="w-full h-64 bg-gray-200 rounded-2xl mb-4 overflow-hidden flex items-center justify-center">
+                                {dog.imageUrl ? (
+                                    <img
+                                        src={dog.imageUrl}
+                                        alt={dog.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <span className="text-gray-400">No Image</span>
+                                )}
+                            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                {dogs.map(dog => (
-                    <div key={dog.id} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
-                        <div className="w-full h-64 bg-gray-200 rounded-2xl mb-4 overflow-hidden flex items-center justify-center">
-                            {dog.imageUrl ? (
-                                <img
-                                    src={dog.imageUrl}
-                                    alt={dog.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <span className="text-gray-400">No Image</span>
-                            )}
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-2xl font-semibold text-gray-800">{dog.name}</h2>
+                                <span className="bg-blue-200 text-blue-700 text-sm px-4 py-1.5 rounded-full font-medium">
+                                    Owner
+                                </span>
+                            </div>
+
+                            <div className="text-gray-600 mb-6 space-y-1">
+                                <p>{dog.breed}</p>
+                                <p>{dog.age} years old • {dog.weight} kg</p>
+                            </div>
+
+
+                            <button
+                                onClick={() => navigate(`/pets/${dog.id}`)}
+                                className="w-full bg-blue-100 text-blue-600 py-3 rounded-xl hover:bg-blue-200 transition font-medium flex items-center justify-center gap-2"
+                            >
+                                <span>⚙️</span>
+                                Manage Pet
+                            </button>
                         </div>
+                    ))}
+                </div>
+            )}
 
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-2xl font-semibold text-gray-800">{dog.name}</h2>
-                            <span className="bg-blue-200 text-blue-700 text-sm px-4 py-1.5 rounded-full font-medium">
-                                Owner
-                            </span>
-                        </div>
-
-                        <div className="text-gray-600 mb-6 space-y-1">
-                            <p>{dog.breed}</p>
-                            <p>{dog.age} years old • {dog.weight} kg</p>
-                        </div>
-
-
-                        <button
-                            onClick={() => navigate(`/pets/${dog.id}`)}
-                            className="w-full bg-blue-100 text-blue-600 py-3 rounded-xl hover:bg-blue-200 transition font-medium flex items-center justify-center gap-2"
-                        >
-                            <span>⚙️</span>
-                            Manage Pet
-                        </button>
-                    </div>
-                ))}
-            </div>
             <AddPetModal
                 isOpen={showAddPetModal}
                 onClose={() => setShowAddPetModal(false)}
                 onPetAdded={async () => {
-                    await fetchDogs()           
-                    setShowAddPetModal(false)   
+                    await fetchDogs()
+                    setShowAddPetModal(false)
                 }}
             />
         </div>
