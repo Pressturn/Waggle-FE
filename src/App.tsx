@@ -8,6 +8,7 @@ import Signup from './pages/Signup'
 import PetDetails from './pages/ManagePet'
 import ProtectedRoute from './routes/ProtectedRoute'
 import Caregivers from './pages/Caregivers'
+import Settings from './pages/Settings'
 
 function App() {
   return (
@@ -71,6 +72,16 @@ function App() {
           <ProtectedRoute>
             <MainLayout>
               <Caregivers />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path='/settings'
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <Settings />
             </MainLayout>
           </ProtectedRoute>
         }
