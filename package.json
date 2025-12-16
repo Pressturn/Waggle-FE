@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@radix-ui/themes": "^3.2.1",
+    "@supabase/supabase-js": "^2.87.3",
     "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
     "date-fns": "^4.1.0",
