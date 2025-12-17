@@ -7,14 +7,15 @@ import LogMedicationModal from '../components/Activity/LogMedicationModal'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import dogService from '../services/dogService'
 import ActivityCard from '../components/Activity/ActivityCard'
+import ActivityModalManager from '../components/Activity/ActivityModalManager'
 
 function ActivityLog() {
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [showLogWaterModal, setShowLogWaterModal] = useState(false)
   const [showLogFeedingModal, setShowLogFeedingModal] = useState(false)
   const [showLogWalkPlayModal, setShowLogWalkPlayModal] = useState(false)
-  const [showLogWaterModal, setShowLogWaterModal] = useState(false)
   const [showLogMedicationModal, setShowLogMedicationModal] = useState(false)
   const [dogs, setDogs] = useState<any[]>([])
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null)
@@ -79,7 +80,7 @@ function ActivityLog() {
     }
   }
 
-  
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -170,71 +171,33 @@ function ActivityLog() {
           ))
         )}
       </div>
-
-      <LogFeedingModal
-        isOpen={showLogFeedingModal}
-        onClose={() => {
+      <ActivityModalManager
+        showFeeding={showLogFeedingModal}
+        showWalkPlay={showLogWalkPlayModal}
+        showWater={showLogWaterModal}
+        showMedication={showLogMedicationModal}
+        onCloseFeeding={() => {
           setShowLogFeedingModal(false)
           setEditingActivity(null)
         }}
-
-        onFeedingLogged={() => {
-          fetchActivities()
-          setShowLogFeedingModal(false)
-          setEditingActivity(null)
-        }}
-        dogId={dogs.length > 0 ? dogs[0].id : ''}
-        editActivity={editingActivity?.type === "MEAL" ? editingActivity : undefined}
-      />
-
-      <LogWalkPlayModal
-        isOpen={showLogWalkPlayModal}
-        onClose={() => {
+        onCloseWalkPlay={() => {
           setShowLogWalkPlayModal(false)
           setEditingActivity(null)
         }}
-
-        onWalkPlayLogged={() => {
-          fetchActivities()
-          setShowLogWalkPlayModal(false)
-          setEditingActivity(null)
-        }}
-        dogId={dogs.length > 0 ? dogs[0].id : ''}
-        editActivity={editingActivity?.type === "WALK" || editingActivity?.type === "PLAY" ? editingActivity : undefined}
-      />
-
-      <LogWaterModal
-        isOpen={showLogWaterModal}
-        onClose={() => {
+        onCloseWater={() => {
           setShowLogWaterModal(false)
           setEditingActivity(null)
         }}
-        onWaterLogged={() => {
-          fetchActivities()
-          setShowLogWaterModal(false)
-          setEditingActivity(null)
-        }}
-        dogId={dogs.length > 0 ? dogs[0].id : ''}
-        editActivity={editingActivity?.type === 'WATER' ? editingActivity : undefined}
-
-      />
-
-      <LogMedicationModal
-        isOpen={showLogMedicationModal}
-        onClose={() => {
-          setShowLogMedicationModal(false)
-          setEditingActivity(null)
-        }}
-
-        onMedicationLogged={() => {
-          fetchActivities()
+        onCloseMedication={() => {
           setShowLogMedicationModal(false)
           setEditingActivity(null)
         }}
         dogId={dogs.length > 0 ? dogs[0].id : ''}
-        editActivity={editingActivity?.type === 'MEDICATION' ? editingActivity : undefined}
+        editActivity={editingActivity}
+        onActivitySaved={fetchActivities}
       />
-    </div >
+    </div>
+
   )
 }
 
