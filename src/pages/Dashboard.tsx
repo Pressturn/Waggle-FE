@@ -2,26 +2,10 @@ import { useEffect, useState } from 'react'
 import activityService, { type Activity } from '../services/activityService'
 import { GiDogBowl, GiMedicines } from 'react-icons/gi'
 import { IoPawOutline, IoWaterOutline } from 'react-icons/io5'
+import { useActivities } from '../hooks/useActivities'
 
 function Dashboard() {
-    const [activities, setActivities] = useState<Activity[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
-
-    useEffect(() => {
-        fetchActivities()
-    }, [])
-
-    const fetchActivities = async () => {
-        try {
-            const data = await activityService.getAll()
-            setActivities(data.activities)
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Failed to fetch activities')
-        } finally {
-            setLoading(false)
-        }
-    }
+    const { activities, loading, error } = useActivities()
 
     const getTodaysActivities = () => {
         const today = new Date()

@@ -8,33 +8,17 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import dogService from '../services/dogService'
 import ActivityCard from '../components/Activity/ActivityCard'
 import ActivityModalManager from '../components/Activity/ActivityModalManager'
+import { useActivities } from '../hooks/useActivities'
 
 function ActivityLog() {
-  const [activities, setActivities] = useState<Activity[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { activities, loading, error, fetchActivities } = useActivities()
+
   const [showLogWaterModal, setShowLogWaterModal] = useState(false)
   const [showLogFeedingModal, setShowLogFeedingModal] = useState(false)
   const [showLogWalkPlayModal, setShowLogWalkPlayModal] = useState(false)
   const [showLogMedicationModal, setShowLogMedicationModal] = useState(false)
   const [dogs, setDogs] = useState<any[]>([])
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null)
-
-  useEffect(() => {
-    fetchActivities()
-    fetchDogs()
-  }, [])
-
-  const fetchActivities = async () => {
-    try {
-      const data = await activityService.getAll()
-      setActivities(data.activities)
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to fetch activities')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const fetchDogs = async () => {
     try {
@@ -44,6 +28,10 @@ function ActivityLog() {
       console.error('Failed to fetch dogs:', error)
     }
   }
+
+  useEffect(() => {
+    fetchDogs()
+  }, [])
 
   const handleEdit = (activity: Activity) => {
     setEditingActivity(activity)
@@ -76,7 +64,6 @@ function ActivityLog() {
       fetchActivities()
     } catch (error) {
       console.error('Failed to delete activity:', error)
-      setError('Failed to delete activity')
     }
   }
 
