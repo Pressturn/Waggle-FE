@@ -29,8 +29,12 @@ function Login() {
             localStorage.setItem('token', data.token)
             localStorage.setItem('account', JSON.stringify(data.account))
             navigate('/')
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Login failed')
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setError(error.response.data.message)
+            } else {
+                setError('Login failed. Please try again.')
+            }
         } finally {
             setLoading(false)
         }
@@ -41,9 +45,9 @@ function Login() {
             <div className="bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-lg w-full max-w-md">
 
                 <div className="flex justify-center mb-6">
-                    <img 
-                        src="assets/logo.svg" 
-                        alt="Waggle" 
+                    <img
+                        src="assets/logo.svg"
+                        alt="Waggle"
                         className="h-16"
                     />
                 </div>
@@ -92,9 +96,9 @@ function Login() {
 
                     <div className="flex items-center justify-between">
                         <label className="flex items-center cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                className="w-4 h-4 accent-gray-700 mr-2" 
+                            <input
+                                type="checkbox"
+                                className="w-4 h-4 accent-gray-700 mr-2"
                             />
                             <span className="text-sm text-gray-600">Remember me</span>
                         </label>
