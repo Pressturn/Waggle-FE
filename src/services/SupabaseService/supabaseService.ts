@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabse-js'
+import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -17,10 +17,13 @@ const uploadDogPhoto = async (file: File, dogId: string): Promise<string> => {
 
     const { error: uploadError } = await supabase.storage
         .from('dog-photos')
-        .upload(fileName, file)
+        .upload(fileName, file, {
+        })
 
     if (uploadError) {
-        throw new Error('Failed to upload photo')
+        console.error('Supabase upload error:', uploadError)
+        throw new Error(`Failed to upload photo: ${uploadError.message}`)
+
     }
 
     const { data } = supabase.storage

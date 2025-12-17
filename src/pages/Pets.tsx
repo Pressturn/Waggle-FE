@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import dogService, { Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
 import AddPetModal from '../components/Pet/AddpetModal'
+import { uploadDogPhoto } from '../services/SupabaseService/supabaseService'
 
 function Pets() {
     const [dogs, setDogs] = useState<Dog[]>([])
@@ -10,6 +11,41 @@ function Pets() {
     const navigate = useNavigate()
     const [showAddPetModal, setShowAddPetModal] = useState(false)
 
+    const handlePhotoClick = (dogId: string) => {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = 'image/jpeg,image/png/image,webp'
+
+        input.onchange = async (event) => {
+            const target = event.target as HTMLInputElement
+            const file = target.files ? target.files[0] : null
+
+            if (!file) {
+                return
+            }
+
+            const maxSize = 5 * 1024 * 1024
+            if (file.size > maxSize) {
+                alert('File too large. Maximum size is 5MB')
+                return
+            }
+            try {
+                setLoading(true)
+
+                const photoUrl = await uploadDogPhoto(file, dogId)
+                console.log('Photo URL:', photoUrl)
+                
+                await dogService.update(dogId, { photo: photoUrl })
+
+                await fetchDogs()
+            } catch (error) {
+                alert('Upload failed. Please try again')
+            } finally {
+                setLoading(false)
+            }
+        }
+        input.click()
+    }
 
     useEffect(() => {
         fetchDogs()
@@ -58,15 +94,23 @@ function Pets() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                     {dogs.map(dog => (
                         <div key={dog.id} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
-                            <div className="w-full h-64 bg-gray-200 rounded-2xl mb-4 overflow-hidden flex items-center justify-center">
-                                {dog.imageUrl ? (
+                            <div
+                                className="w-full h-64 bg-gray-200 rounded-2xl mb-4 overflow-hidden flex items-center justify-center cursor-pointer hover:opacity-90 transition group"
+                                onClick={() => handlePhotoClick(dog.id)}
+                                title="Click to upload photo"
+                            >
+                                {dog.photo ? (
                                     <img
-                                        src={dog.imageUrl}
-                                        alt={dog.name}
+                                        src={dog.photo}
+                                        alt={`${dog.name} photo`}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
-                                    <span className="text-gray-400">No Image</span>
+                                    <div className="text-center">
+                                        <span className="text-gray-400 text-sm group-hover:text-gray-600 transition">
+                                            Click to upload photo
+                                        </span>
+                                    </div>
                                 )}
                             </div>
 
