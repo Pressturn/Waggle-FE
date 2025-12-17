@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import activityService, {type Activity } from '../services/activityService'
+import activityService, { type Activity } from '../services/activityService'
 import { GiDogBowl, GiMedicines } from 'react-icons/gi'
 import { IoPawOutline, IoWaterOutline } from 'react-icons/io5'
 
@@ -33,6 +33,64 @@ function Dashboard() {
             return activityDate.getTime() === today.getTime()
         })
     }
+
+    const getActivityTitle = (activity: Activity): string => {
+        switch (activity.type) {
+            case 'MEAL':
+                return activity.foodType || 'Meal'
+
+            case 'WATER':
+                return activity.notes?.split(',')[0] || 'Refill Water Bowl'
+
+            case 'WALK':
+                return activity.notes?.split(',')[0] || 'Walk'
+
+            case 'PLAY':
+                return activity.notes?.split(',')[0] || 'Play'
+
+            case 'MEDICATION':
+                return activity.notes?.split(',') || 'Medication'
+
+            default:
+                return activity.type
+
+        }
+    }
+
+    const getActivityTypeColor = (type: string): string => {
+        switch (type) {
+            case 'MEAL':
+                return 'bg-orange-100 text-orange-600'
+            case 'WATER':
+                return 'bg-blue-100 text-blue-600'
+            case 'WALK':
+                return 'bg-green-100 text-green-600'
+            case 'PLAY':
+                return 'bg-green-100 text-green-600'
+            case 'MEDICATION':
+                return 'bg-purple-100 text-purple-600'
+            default:
+                return 'bg-gray-100 text-gray-600'
+        }
+    }
+
+    const getActivityType = (type: string): string => {
+        switch (type) {
+            case 'MEAL':
+                return 'Food'
+            case 'WATER':
+                return 'Water'
+            case 'WALK':
+                return 'Walk'
+            case 'PLAY':
+                return 'Walk'
+            case 'MEDICATION':
+                return 'Medication'
+            default:
+                return type
+        }
+    }
+
 
     const lastMeal = activities.find(activity => activity.type === 'MEAL')
     const lastWalk = activities.find(activity => activity.type === 'WALK')
