@@ -17,6 +17,9 @@ function ActivityCard({ activity, onEdit, onDelete }: ActivityCardProps) {
         }
     }
 
+    const capitaliseFirstLetter = (name: string): string => {
+        return name.charAt(0).toUpperCase() + name.slice(1)
+    }
 
     return (
         <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
@@ -67,8 +70,13 @@ function ActivityCard({ activity, onEdit, onDelete }: ActivityCardProps) {
                                         'Medication'}
                     </span>
 
-                    {activity.dog && <p className="text-gray-600 text-sm">Dog: {activity.dog.name}</p>}
-                    {activity.loggedBy && <p className="text-gray-400 text-sm">Logged by: {activity.loggedBy.name}</p>}
+                    {activity.dog &&
+                        <p className="text-gray-600 text-sm">
+                            Dog: {activity.dog.name}</p>}
+
+                    {activity.loggedBy &&
+                        <p className="text-gray-400 text-sm">
+                            Logged by: {capitaliseFirstLetter(activity.loggedBy.name)}</p>}
 
                     <div className="flex gap-2 mt-2">
                         <button

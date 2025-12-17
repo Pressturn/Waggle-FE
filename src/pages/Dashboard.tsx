@@ -49,7 +49,7 @@ function Dashboard() {
                 return activity.notes?.split(',')[0] || 'Play'
 
             case 'MEDICATION':
-                return activity.notes?.split(',') || 'Medication'
+                return activity.notes?.split(',')[0] || 'Medication'
 
             default:
                 return activity.type
@@ -89,6 +89,10 @@ function Dashboard() {
             default:
                 return type
         }
+    }
+
+    const capitaliseFirstLetter = (name: string): string => {
+        return name.charAt(0).toUpperCase() + name.slice(1)
     }
 
 
@@ -197,35 +201,46 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Today's Activity Log</h2>
 
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {getTodaysActivities().length === 0 ? (
                             <div className="bg-white rounded-2xl border border-gray-200 p-6 text-center">
                                 <p className="text-gray-500">No activities logged today</p>
                             </div>
                         ) : (
                             getTodaysActivities().map((activity) => (
-                                <div key={activity.id} className="bg-white rounded-2xl border border-gray-200 p-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                                            {activity.type}
-                                        </span>
-                                        <span className="text-sm text-gray-500">
-                                            {activity.time}
+                                <div key={activity.id} className="bg-white rounded-2xl border border-gray-200 p-5">
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-1 pr-4">
+                                            <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                                                {getActivityTitle(activity)}
+                                            </h3>
+                                            <p className="text-sm text-gray-500 mb-2">
+                                                {activity.time || 'No time specified'}
+                                            </p>
+                                            {activity.notes && (
+                                                <p className="text-gray-600 text-sm">
+                                                    {activity.notes}
+                                                </p>
+                                            )}
+                                            {activity.loggedBy && (
+                                                <p className="text-gray-400 text-xs mt-2">
+                                                    by {capitaliseFirstLetter(activity.loggedBy.name)}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        <span className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap ${getActivityTypeColor(activity.type)}`}>
+                                            {getActivityType(activity.type)}
                                         </span>
                                     </div>
-                                    <p className="text-gray-700 text-sm">
-                                        {activity.notes || 'No details'}
-                                    </p>
                                 </div>
                             ))
                         )}
                     </div>
                 </div>
-
             </div>
         </div>
     )

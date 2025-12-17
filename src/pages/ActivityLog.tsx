@@ -79,6 +79,8 @@ function ActivityLog() {
     }
   }
 
+  
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="flex justify-between items-start mb-8">
