@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import authService from '../services/authService'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 function Signup() {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        inviteCode: searchParams.get('code') || ''
     })
 
     const [error, setError] = useState('')
