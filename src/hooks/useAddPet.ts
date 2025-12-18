@@ -8,6 +8,8 @@ function useAddPet() {
         breed: '',
         age: 0,
         weight: 0,
+        allergies: '',
+        dietaryRestrictions: '',
     })
 
     const [loading, setLoading] = useState(false)
@@ -30,6 +32,8 @@ function useAddPet() {
                 breed: '',
                 age: 0,
                 weight: 0,
+                allergies: '',
+                dietaryRestrictions: '',
             })
 
             return true

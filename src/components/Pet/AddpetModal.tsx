@@ -51,7 +51,7 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                                 type="text"
                                 value={petFormData.name}
                                 onChange={(event) => setPetFormData({ ...petFormData, name: event.target.value })}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                             />
                         </div>
 
@@ -63,7 +63,7 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                                 type="text"
                                 value={petFormData.breed}
                                 onChange={(event) => setPetFormData({ ...petFormData, breed: event.target.value })}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                             />
                         </div>
 
@@ -76,10 +76,9 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                                     type="number"
                                     value={petFormData.age || ''}
                                     onChange={(event) => setPetFormData({ ...petFormData, age: parseInt(event.target.value) || 0 })}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                    className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                                 />
                             </div>
-
                             <div>
                                 <label className="block text-sm font-medium text-gray-600 mb-2">
                                     Weight (kg)
@@ -90,8 +89,34 @@ function AddPetModal({ isOpen, onClose, onPetAdded }: AddPetModalProps) {
                                     onChange={(event) => setPetFormData({
                                         ...petFormData, weight: parseFloat(event.target.value) || 0
                                     })}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                    className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
                                 />
+                            </div>
+                        </div>
+                        <div className="space-y-5">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-2">
+                                    Allergies
+                                </label>
+                                <input
+                                    type="text"
+                                    value={petFormData.allergies}
+                                    onChange={(event) => setPetFormData({ ...petFormData, allergies: event.target.value })}
+                                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                />
+                            </div>
+                            <div className="space-y-5">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                                        Dietary Restrictions
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={petFormData.dietaryRestrictions}
+                                        onChange={(event) => setPetFormData({ ...petFormData, dietaryRestrictions: event.target.value })}
+                                        className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

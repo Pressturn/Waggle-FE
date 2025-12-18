@@ -34,7 +34,7 @@ function Pets() {
 
                 const photoUrl = await uploadDogPhoto(file, dogId)
                 console.log('Photo URL:', photoUrl)
-                
+
                 await dogService.update(dogId, { photo: photoUrl })
 
                 await fetchDogs()
@@ -122,8 +122,9 @@ function Pets() {
                             </div>
 
                             <div className="text-gray-600 mb-6 space-y-1">
-                                <p>{dog.breed}</p>
-                                <p>{dog.age} years old • {dog.weight} kg</p>
+                                <p>Breed: {dog.breed}</p>
+                                <p>Age: {dog.age} years old </p>
+                                <p>Weight: {dog.weight} kg</p>
                             </div>
 
 
