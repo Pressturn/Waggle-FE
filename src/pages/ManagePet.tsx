@@ -4,13 +4,14 @@ import usePetDetails from '../hooks/usePetDetails'
 import useDeletePet from '../hooks/useDeletePet'
 import DeletePetModal from '../components/Pet/DeletePetModal'
 import PetEditForm from '../components/Pet/PetEditForm'
-
+import getUserRole from '../utils/getUserRole'
 
 function ManagePet() {
 
     const navigate = useNavigate()
     const { handleDelete, deleting } = useDeletePet()
     const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const userRole = getUserRole()
 
     const {
         dog,
@@ -49,7 +50,7 @@ function ManagePet() {
             />
         )
     }
-    
+
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <button
@@ -83,12 +84,14 @@ function ManagePet() {
                                     Edit Pet
                                 </button>
 
-                                <button
-                                    onClick={() => setShowDeleteModal(true)}
-                                    className="px-4 py-2 bg-red-500 text-white border border-red-500 rounded-lg hover:bg-red-600 transition flex items-center gap-2"
-                                >
-                                    Delete Pet
-                                </button>
+                                {userRole === 'OWNER' && (
+                                    <button
+                                        onClick={() => setShowDeleteModal(true)}
+                                        className="px-4 py-2 bg-red-500 text-white border border-red-500 rounded-lg hover:bg-red-600 transition flex items-center gap-2"
+                                    >
+                                        Delete Pet
+                                    </button>
+                                )}
                             </div>
                         </div>
 
