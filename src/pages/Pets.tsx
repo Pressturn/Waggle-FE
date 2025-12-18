@@ -3,13 +3,17 @@ import dogService, { Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
 import AddPetModal from '../components/Pet/AddpetModal'
 import { uploadDogPhoto } from '../services/SupabaseService/supabaseService'
+import getUserRole from '../utils/getUserRole'
 
 function Pets() {
+    const navigate = useNavigate()
+    const userRole = getUserRole()
+
     const [dogs, setDogs] = useState<Dog[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
-    const navigate = useNavigate()
     const [showAddPetModal, setShowAddPetModal] = useState(false)
+
 
     const handlePhotoClick = (dogId: string) => {
         const input = document.createElement('input')
@@ -116,8 +120,11 @@ function Pets() {
 
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-2xl font-semibold text-gray-800">{dog.name}</h2>
-                                <span className="bg-blue-200 text-blue-700 text-sm px-4 py-1.5 rounded-full font-medium">
-                                    Owner
+                                <span className={`text-sm px-4 py-1.5 rounded-full font-medium ${userRole === 'OWNER'
+                                        ? 'bg-blue-200 text-blue-700'
+                                        : 'bg-green-200 text-green-700'
+                                    }`}>
+                                    {userRole === 'OWNER' ? 'Owner' : 'Member'}
                                 </span>
                             </div>
 
