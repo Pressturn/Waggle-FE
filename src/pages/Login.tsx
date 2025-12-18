@@ -102,7 +102,7 @@ function Login() {
                             />
                             <span className="text-sm text-gray-600">Remember me</span>
                         </label>
-                        <Link to="/forgot-password" className="text-sm text-blue-400 hover:text-blue-500">
+                        <Link to="/login" className="text-sm text-blue-400 hover:text-blue-500">
                             Forgot password?
                         </Link>
                     </div>
