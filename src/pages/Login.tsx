@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import authService from '../services/authService'
+import logo from '../assets/logo.svg'
 
 function Login() {
     const navigate = useNavigate()
@@ -46,7 +47,7 @@ function Login() {
 
                 <div className="flex justify-center mb-6">
                     <img
-                        src="assets/logo.svg"
+                        src={logo}
                         alt="Waggle"
                         className="h-16"
                     />

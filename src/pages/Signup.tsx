@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import authService from '../services/authService'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import logo from './assets/logo.svg'
+import logo from '../assets/logo.svg'
 
 function Signup() {
     const navigate = useNavigate()
