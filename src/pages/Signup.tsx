@@ -47,7 +47,7 @@ function Signup() {
 
                 <div className="flex justify-center mb-6">
                     <img
-                        src="assets/logo.svg"
+                        src="src/assets/logo.svg"
                         alt="Waggle"
                         className="h-16"
                     />
