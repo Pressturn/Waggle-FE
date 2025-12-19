@@ -33,7 +33,7 @@ const authService = {
     },
 
     signIn: async (data: SignInData): Promise<AuthResponse> => {
-        const response = await api.post('/auth/login', data)
+        const response = await api.post('/auth/signin', data)
         const { token, account } = response.data
 
         localStorage.setItem('token', token)
