@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import dogService, { Dog } from '../services/dogService'
+import dogService, {type Dog } from '../services/dogService'
 
 function usePetDetails() {
     const { dogId } = useParams()

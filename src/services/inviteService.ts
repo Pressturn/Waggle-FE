@@ -12,7 +12,7 @@ export interface InviteResponse {
 }
 
 const inviteService = {
-    create: async (data: CreateInviteData): Promise<InviteResponse> => {
+    create: async (data: createInviteData): Promise<InviteResponse> => {
         const response = await api.post('/invites', data)
         return response.data
     }

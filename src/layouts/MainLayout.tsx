@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import {type ReactNode } from 'react'
 import { FiHome, FiList, FiHeart, FiUsers, FiSettings } from 'react-icons/fi'
 import authService from '../services/authService'
 import { useEffect } from 'react'

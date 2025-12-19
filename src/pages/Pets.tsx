@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import dogService, { Dog } from "../services/dogService"
+import dogService, { type Dog } from "../services/dogService"
 import { useNavigate } from 'react-router-dom'
 import AddPetModal from '../components/Pet/AddpetModal'
 import { uploadDogPhoto } from '../services/SupabaseService/supabaseService'
@@ -37,7 +37,6 @@ function Pets() {
                 setLoading(true)
 
                 const photoUrl = await uploadDogPhoto(file, dogId)
-                console.log('Photo URL:', photoUrl)
 
                 await dogService.update(dogId, { photo: photoUrl })
 

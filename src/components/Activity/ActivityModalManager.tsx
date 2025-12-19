@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import LogFeedingModal from './LogFeedingModal'
 import LogWalkPlayModal from './LogWalkPlayModal'
 import LogWaterModal from './LogWaterModal'
