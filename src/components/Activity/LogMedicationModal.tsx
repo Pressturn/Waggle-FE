@@ -87,6 +87,12 @@ function LogMedicationModal({ isOpen, onClose, onMedicationLogged, dogId, editAc
                         Log Medication
                     </DialogTitle>
 
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                            {error}
+                        </div>
+                    )}
+                    
                     <div className="space-y-5">
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-2">

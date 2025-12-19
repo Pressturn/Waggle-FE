@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import dogService, {type Dog } from '../services/dogService'
+import dogService, { type Dog } from '../services/dogService'
 
 function usePetDetails() {
     const { dogId } = useParams()
@@ -67,7 +67,7 @@ function usePetDetails() {
     }
 
 
-    const handleFormChange = (field: keyof typeof petFormData, value: string | number) => {
+    const handleFormChange = (field: string, value: string | number) => {
         setPetFormData({
             ...petFormData,
             [field]: value

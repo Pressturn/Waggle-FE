@@ -11,7 +11,7 @@ const useActivities = () => {
     const fetchActivities = async () => {
         try {
             const data = await activityService.getAll()
-            setActivities(data.activities)
+            setActivities(data.activites)
             setError('')
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Failed to fetch activities')

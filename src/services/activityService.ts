@@ -11,6 +11,7 @@ export interface Activity {
     medication?: string
     notes?: string
     photo?: string
+    timestamp: string
     dog: {
         id: string
         name: string
