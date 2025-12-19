@@ -38,7 +38,7 @@ export interface CreateActivityData {
 
 const activityService = {
 
-    getAll: async (): Promise<{ activites: Activity[] }> => {
+    getAll: async (): Promise<{ activities: Activity[] }> => {
         const response = await api.get('/activities')
         return response.data
     },

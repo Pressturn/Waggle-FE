@@ -79,10 +79,10 @@ function Dashboard() {
     }
 
 
-    const lastMeal = activities.find(activity => activity.type === 'MEAL')
-    const lastWalk = activities.find(activity => activity.type === 'WALK')
-    const lastWater = activities.find(activity => activity.type === 'WATER')
-    const lastMedication = activities.find(activity => activity.type === 'MEDICATION')
+    const lastMeal = activities?.find(activity => activity.type === 'MEAL')
+    const lastWalk = activities?.find(activity => activity.type === 'WALK')
+    const lastWater = activities?.find(activity => activity.type === 'WATER')
+    const lastMedication = activities?.find(activity => activity.type === 'MEDICATION')
 
     if (loading) {
         return (
