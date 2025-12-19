@@ -159,13 +159,13 @@ function ActivityLog() {
       {error && <p className="text-red-500">Error: {error}</p>}
 
       <div className="space-y-4">
-        {activities.length === 0 ? (
+        {activities?.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-200">
             <p className="text-gray-500 text-lg">No activities logged yet</p>
             <p className="text-gray-400 text-sm mt-2">Start logging activities using the "+ Log Activity" button above</p>
           </div>
         ) : (
-          activities.map(activity => (
+          activities?.map(activity => (
             <ActivityCard
               key={activity.id}
               activity={activity}
