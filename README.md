@@ -25,3 +25,37 @@ Waggle brings clarity and coordination to pet care, ensuring every family member
 * **Styling:** Tailwind CSS, Headless UI, React Icons
 * **Database:** PostgreSQL + Prisma ORM
 * **Infrastructure:** Supabase (PostgreSQL hosting)
+
+
+## Future Roadmap
+
+### Planned Features
+
+#### Mobile Application
+- Native iOS and Android apps for on-the-go pet care management
+- Push notifications for medication reminders and activity updates
+- Offline mode for logging activities without internet connection
+
+#### Telegram Bot Integration
+- Quick activity logging via Telegram commands (e.g., `/fed breakfast`, `/walk 30mins`)
+- Real-time notifications to family group chats when activities are logged
+- Voice message support for adding activity notes
+
+#### Upcoming Tasks & Task Assignment
+- Task scheduling system showing upcoming feeding times, walks, and medication doses
+- Task assignment to specific caregivers with "I'll handle it" confirmation
+- Task status tracking (Pending, In Progress, Completed)
+- Automatic reminders for overdue tasks
+
+#### Advanced Activity Filtering
+- Filter activities by pet, date range, or activity type
+- Search functionality for finding specific activities or notes
+- Export activity logs as PDF or CSV for vet visits
+- Activity statistics and insights (daily/weekly/monthly summaries)
+
+#### Additional Enhancements
+- Photo uploads for activities (meal photos, walk locations, etc.)
+- Veterinarian contact integration
+- Medical records and vaccination tracking
+- Multi-pet household dashboard view
+- Activity templates for recurring tasks
