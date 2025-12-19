@@ -22,7 +22,7 @@ function MainLayout({ children }: MainLayoutProps) {
 
     useEffect(() => {
         if (!account) {
-            navigate('/login')
+            navigate('/signin')
         }
     }, [account, navigate])
 

@@ -2,7 +2,7 @@ import MainLayout from './layouts/MainLayout'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ActivityLog from './pages/ActivityLog'
 import Dashboard from './pages/Dashboard'
-import Login from './pages/Login'
+import Signin from './pages/Signin'
 import Pets from './pages/Pets'
 import Signup from './pages/Signup'
 import PetDetails from './pages/ManagePet'
@@ -14,7 +14,7 @@ function App() {
   return (
     <Routes>
 
-      <Route path="/login" element={<Login />} />
+      <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
 
       <Route path="/"

@@ -6,7 +6,7 @@ function Settings() {
 
     const handleLogout = () => {
         authService.signOut()
-        navigate('/login')
+        navigate('/signin')
     }
 
     return (

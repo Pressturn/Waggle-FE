@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import authService from '../services/authService'
 import logo from '../assets/logo.svg'
 
-function Login() {
+function Signin() {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '',
@@ -34,7 +34,7 @@ function Login() {
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message)
             } else {
-                setError('Login failed. Please try again.')
+                setError('Signin failed. Please try again.')
             }
         } finally {
             setLoading(false)
@@ -103,7 +103,7 @@ function Login() {
                             />
                             <span className="text-sm text-gray-600">Remember me</span>
                         </label>
-                        <Link to="/login" className="text-sm text-blue-400 hover:text-blue-500">
+                        <Link to="/signin" className="text-sm text-blue-400 hover:text-blue-500">
                             Forgot password?
                         </Link>
                     </div>
@@ -128,4 +128,4 @@ function Login() {
     )
 }
 
-export default Login
+export default Signin
